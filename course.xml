@@ -1,0 +1,51 @@
+<openerp>
+	<data>
+		<record id="course_list" model="ir.ui.view">
+			<field name="name">course_list</field>
+			<field name="model">academic.course</field>
+
+			<field name="arch" type="xml">
+
+				<tree string="Course List">
+					<field name="name" />
+					<field name="description" />
+					<field name="responsible_id" />
+				</tree>
+			</field>
+		</record>
+		<record id="course_form" model="ir.ui.view">
+			<field name="name">course_form</field>
+			<field name="model">academic.course</field>
+
+			<field name="arch" type="xml">
+				<form string="Course Form" version="7.0">
+					<label for="name" string="Course Name"/>
+				<h1>
+					<field name="name"/>
+				</h1>
+				<group>
+					<field name="responsible_id"/>
+				</group>
+
+					<notebook>
+						<page string="Description">		
+							<field name="description"/>
+						</page>
+
+						<page string="Sessions">
+							<field name="session_ids">
+								<tree string="Sessions">
+									<field name="name"/>
+									<field name="start_date"/>
+									<field name="instructor_id" domain="[('is_instructor','=',True)]"/>
+									<field name="seats"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>
