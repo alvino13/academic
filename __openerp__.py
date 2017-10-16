@@ -5,7 +5,7 @@
 		"base",
 		"board"
 	],
-	"author": "author name", 
+	"author": "Alvino Dirgantara", 
 	"category": "Education", 
 	"description": """\
 
