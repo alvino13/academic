@@ -23,7 +23,8 @@ Manage
 			 "course.xml",
 			 "session.xml",
 			 "attendee.xml",
-			 "partner.xml"
+			 "partner.xml",
+			 "workflow.xml"
 			 ],
 	"installable": True,
 	"auto_install": False,

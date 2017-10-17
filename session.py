@@ -1,17 +1,11 @@
 from openerp.osv import osv, fields
-
-class course(osv.Model):
-	_name = 'academic.course'
-	_columns = {
-				'name'  			: fields.char('Name', size=50, required=True),
-				'description'		: fields.text('Description'),
-				'responsible_id'	: fields.many2one('res.users', string='Responsible'),
-				'session_ids'		: fields.one2many('academic.session','course_id','Sessions',ondelete="cascade"),
-				}
+import time
 
 SESSION_STATES = [('draft','Draft'),('confirmed','Confirmed'),('done','Done')]
 
 class session(osv.Model):
+
+
 	_name = 'academic.session'
 
 	def _calc_taken_seats(self, cr, uid, ids, field, arg, context=None):
@@ -42,6 +36,19 @@ class session(osv.Model):
 				'message' : 'Please Enter More Seats Number'}
 		return results
 
+
+	_sql_constraints= [
+							('name_description_check','CHECK(name <> description)','The Title of Course Should be Different Of The Description'),
+							('name_unique','UNIQUE(name)','The Title Must be Unique')]
+	_defaults = {
+						
+					'active' 	 : True,
+					'start_date' : lambda *a : time.strftime("%Y-%m-%d"),
+					'state'		 : SESSION_STATES[0][0],
+				}
+	_sql_constraints= [
+							('partner_session_unique','UNIQUE(partner_id, session_id)','You Can Not Insert the same Attendee Multiple time!')]
+
 	def action_draft(self, cr, uid, ids, context=None):
 		return self.write(cr,uid,ids,{'state':SESSION_STATES[0][0]},context=context)
 
@@ -50,18 +57,6 @@ class session(osv.Model):
 
 	def action_done(self, cr, uid, ids, context=None):
 		return self.write(cr,uid,ids,{'state':SESSION_STATES[2][0]},context=context)
-
-		_sql_constraints= [
-							('name_description_check','CHECK(name <> description)','The Title of Course Should be Different Of The Description'),
-							('name_unique','UNIQUE(name)','The Title Must be Unique')]
-		_defaults = {
-						
-						'active' 	 : True,
-						'start_date' : lambda *a : time.strftime("%y-%m-%d"),
-						'state'		 : SESSION_STATES[0][0],
-						}
-		_sql_constraints= [
-							('partner_session_unique','UNIQUE(partner_id, session_id)','You Can Not Insert the same Attendee Multiple time!')]
 
 	_columns = {
 				'course_id'  		: fields.many2one('academic.course', 'Course'),
@@ -77,16 +72,3 @@ class session(osv.Model):
 				'state' 			: fields.selection(SESSION_STATES,'Status', readonly=True,required=True),
 				}
 
-class attendee(osv.Model):
-	_name = 'academic.attendee'
-	_columns = { 'session_id'  		: fields.many2one('academic.session', 'Session'),
-				 'partner_id'		: fields.many2one('res.partner','Partner'),
-				 'name'				: fields.char('Name',size=100),
-				 'course_id'		: fields.related('session_id','course_id', type='many2one', relation='academic.course', string='Course', store=True)}
-
-
-class partner(osv.Model):
-	_name 	 = 'res.partner'
-	_inherit = 'res.partner'
-	_columns = {	
-				'is_instructor'	: fields.boolean('Is Instructor')}

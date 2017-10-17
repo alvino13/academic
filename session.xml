@@ -25,10 +25,10 @@
 			<field name="arch" type="xml">
 				<form string="Session Form" version="7.0">
 					<header>
-						<button string="Confirm" type="object" name="action_confirm" states="draft" />
-						<button string="Mark As Done" type="object" name="action_done" states="confirmed" />
-						<button string="Reset to Draft" type="object" name="action_draft" states="confirmed,done" />
-						<field name="state" widget="statusbar"/>	
+						<button string="Confirm" type="workflow" name="signal_confirm" states="draft" />
+						<button string="Mark As Done" type="workflow" name="signal_done" states="confirmed" />
+						<button string="Reset to Draft" type="workflow" name="signal_draft" states="confirmed,done" />
+						<field name="state" widget="statusbar"/>
 					</header>
 				<label for="name" string="Session Name"/>
 				<h1>

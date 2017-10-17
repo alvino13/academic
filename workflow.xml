@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record id="workflow_0" model="workflow">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="create_date">2017-10-17 04:32:52</field>
+			<field name="name">session</field>
+			<field name="__last_update">2017-10-17 05:55:01</field>
+			<field name="osv">academic.session</field>
+			<field name="write_uid" ref="base.user_root"/>
+			<field name="write_date">2017-10-17 05:55:01</field>
+			<field name="display_name">session</field>
+			<field eval="1" name="on_create"/>
+		</record>
+		<record id="workflow_activity_0" model="workflow.activity">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="kind">function</field>
+			<field name="create_date">2017-10-17 04:34:48</field>
+			<field name="name">Confirmed</field>
+			<field name="join_mode">XOR</field>
+			<field name="__last_update">2017-10-17 05:55:01</field>
+			<field eval="0" name="flow_stop"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field name="split_mode">XOR</field>
+			<field name="write_date">2017-10-17 05:55:01</field>
+			<field name="action">action_confirm()</field>
+			<field name="display_name">Confirmed</field>
+			<field model="workflow" name="wkf_id" search="[('name', '=', u'session')]"/>
+			<field eval="0" name="flow_start"/>
+		</record>
+		<record id="workflow_transition_0" model="workflow.transition">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="__last_update">2017-10-17 04:39:38</field>
+			<field name="create_date">2017-10-17 04:39:38</field>
+			<field name="signal">signal_done</field>
+			<field eval="10" name="sequence"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field model="workflow.activity" name="act_from" search="[('name', '=', u'Confirmed')]"/>
+			<field model="workflow.activity" name="act_to" search="[('name', '=', u'Done')]"/>
+			<field name="write_date">2017-10-17 04:39:38</field>
+			<field name="condition">True</field>
+			<field name="display_name">signal_done</field>
+		</record>
+		<record id="workflow_transition_1" model="workflow.transition">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="__last_update">2017-10-17 05:55:22</field>
+			<field name="create_date">2017-10-17 04:36:45</field>
+			<field name="signal">signal_confirm</field>
+			<field eval="10" name="sequence"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field model="workflow.activity" name="act_from" search="[('name', '=', u'Draft')]"/>
+			<field model="workflow.activity" name="act_to" search="[('name', '=', u'Confirmed')]"/>
+			<field name="write_date">2017-10-17 05:55:22</field>
+			<field name="condition">True</field>
+			<field name="display_name">signal_confirm</field>
+		</record>
+		<record id="workflow_activity_1" model="workflow.activity">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="kind">function</field>
+			<field name="create_date">2017-10-17 04:39:07</field>
+			<field name="name">Done</field>
+			<field name="join_mode">XOR</field>
+			<field name="__last_update">2017-10-17 05:26:43</field>
+			<field eval="0" name="flow_stop"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field name="split_mode">XOR</field>
+			<field name="write_date">2017-10-17 05:26:43</field>
+			<field name="action">action_done()</field>
+			<field name="display_name">Done</field>
+			<field model="workflow" name="wkf_id" search="[('name', '=', u'session')]"/>
+			<field eval="0" name="flow_start"/>
+		</record>
+		<record id="workflow_transition_2" model="workflow.transition">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="__last_update">2017-10-17 04:39:57</field>
+			<field name="create_date">2017-10-17 04:39:57</field>
+			<field name="signal">signal_draft</field>
+			<field eval="10" name="sequence"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field model="workflow.activity" name="act_from" search="[('name', '=', u'Done')]"/>
+			<field model="workflow.activity" name="act_to" search="[('name', '=', u'Draft')]"/>
+			<field name="write_date">2017-10-17 04:39:57</field>
+			<field name="condition">True</field>
+			<field name="display_name">signal_draft</field>
+		</record>
+	</data>
+</openrp>
